@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Link;
 
@@ -28,7 +29,7 @@ class LinkController extends Controller
      */
     public function create()
     {
-        //
+        return view();
     }
 
     /**
@@ -84,12 +85,12 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
-        // TODO: pedir confirmación: esta seguro?
-
-        // TODO: verificar que el usuario SI sea el dueño
-
-        $link->delete();
-
-        return back();
+        if($link->owner->id == Auth::id())
+        {
+            $link->delete();
+            return back()->with('_success', 'Enlace borrado exitosamente!');
+        }
+        
+        return back()->with('_failure', 'No tiene permiso de borrar ese recurso!');
     }
 }

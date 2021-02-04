@@ -18,4 +18,9 @@ class Link extends Model
         'label',
         'url',
     ];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
