@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Link;
+use Illuminate\Support\Facades\Input;
 
 class LinkController extends Controller
 {
@@ -29,7 +30,7 @@ class LinkController extends Controller
      */
     public function create()
     {
-        return view();
+        return view('links.create');
     }
 
     /**
@@ -40,7 +41,15 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // TODO: validaciones
+
+        $link = new Link();
+        $link->label = $request->input('label');
+        $link->url = $request->input('url');
+        $link->user_id = Auth::id();
+        $link->save();
+
+        return redirect(route('links.index'))->with('_success', 'Enlace creado exitosamente!');
     }
 
     /**
@@ -49,9 +58,9 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Link $link)
     {
-        //
+        return view('links.show', compact('link'));
     }
 
     /**
