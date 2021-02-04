@@ -23,11 +23,11 @@
         </tr>
         <tr>
             <th scope="col">Creado en</th>
-            <td>{{ $link->created_at }}</td>
+            <td>{{ $link->created_at ?? "Desconocida" }}</td>
         </tr>
         <tr>
             <th scope="col">Actualizado en</th>
-            <td>{{ $link->updated_at }}</td>
+            <td>{{ $link->updated_at ?? "Desconocida"  }}</td>
         </tr>
     </table>
 </div>
