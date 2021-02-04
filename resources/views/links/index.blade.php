@@ -32,6 +32,8 @@
                 </tr>
             @endforeach
         </table>
+
+        {{ $links->links() }}
     </div>
 
 @endsection

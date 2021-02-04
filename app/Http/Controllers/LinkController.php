@@ -18,7 +18,7 @@ class LinkController extends Controller
     public function index()
     {
         // TODO
-        $links = Link::where('user_id', '=', 1)->get();
+        $links = Link::where('user_id', '=', 1)->simplePaginate(5);
 
         return view('links.index', compact('links'));
     }
@@ -71,7 +71,7 @@ class LinkController extends Controller
      */
     public function edit($id)
     {
-        //
+        // 
     }
 
     /**
@@ -83,7 +83,7 @@ class LinkController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // TODO: validaciones
     }
 
     /**
