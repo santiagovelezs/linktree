@@ -19,6 +19,11 @@ class Link extends Model
         'url',
     ];
 
+    public function scopeOwnedBy($query, $user_id)
+    {
+        return $query->where('user_id', '=', $user_id);
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');

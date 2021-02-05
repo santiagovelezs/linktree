@@ -17,8 +17,7 @@ class LinkController extends Controller
      */
     public function index()
     {
-        // TODO
-        $links = Link::where('user_id', '=', 1)->simplePaginate(5);
+        $links = Link::ownedBy(Auth::id())->simplePaginate(5);
 
         return view('links.index', compact('links'));
     }
