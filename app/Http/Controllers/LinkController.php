@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Link;
-use Illuminate\Support\Facades\Input;
+use App\Http\Requests\LinkRequest;
 
 class LinkController extends Controller
 {
@@ -38,10 +38,8 @@ class LinkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LinkRequest $request)
     {
-        // TODO: validaciones
-
         $link = new Link();
         $link->label = $request->input('label');
         $link->url = $request->input('url');
@@ -80,10 +78,8 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Link $link)
+    public function update(LinkRequest $request, Link $link)
     {
-        // TODO: validaciones
-
         $link->label = $request->input('label');
         $link->url = $request->input('url');
         $link->save();
