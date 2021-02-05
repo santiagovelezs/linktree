@@ -49,7 +49,7 @@ class LinkController extends Controller
         $link->user_id = Auth::id();
         $link->save();
 
-        return redirect(route('links.index'))->with('_success', 'Enlace creado exitosamente!');
+        return redirect(route('links.index'))->with('_success', '¡Enlace creado exitosamente!');
     }
 
     /**
@@ -69,9 +69,9 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Link $link)
     {
-        // 
+        return view('links.edit', compact('link'));
     }
 
     /**
@@ -81,9 +81,15 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Link $link)
     {
         // TODO: validaciones
+
+        $link->label = $request->input('label');
+        $link->url = $request->input('url');
+        $link->save();
+
+        return redirect(route('links.index'))->with('_success', '¡Enlace editado exitosamente!');
     }
 
     /**
@@ -97,9 +103,10 @@ class LinkController extends Controller
         if($link->owner->id == Auth::id())
         {
             $link->delete();
-            return back()->with('_success', 'Enlace borrado exitosamente!');
+
+            return back()->with('_success', '¡Enlace borrado exitosamente!');
         }
         
-        return back()->with('_failure', 'No tiene permiso de borrar ese recurso!');
+        return back()->with('_failure', '¡No tiene permiso de borrar ese recurso!');
     }
 }

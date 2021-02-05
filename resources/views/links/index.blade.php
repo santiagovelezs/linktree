@@ -20,12 +20,13 @@
                     <td><a href="{{ $link->url }}">{{ $link->url }}</a></td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Link options">
-                            <a href="{{ route('links.show', $link->id) }}" class="btn btn-info"><i class="far fa-eye"></i></a>
+                            <a href="{{ route('links.show', $link->id) }}" class="btn btn-info" title="Ver"><i class="far fa-eye"></i></a>
+                            <a href="{{ route('links.edit', $link->id) }}" class="btn btn-warning" title="Editar"><i class="far fa-edit"></i></a>
                             <form action="{{ route('links.destroy', $link->id) }}" method="post"
                                 onsubmit="return confirm('¿Esta seguro que desea remover el enlace?')">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button type="submit" class="btn btn-danger" title="Remover"><i class="fas fa-trash"></i></button>
                             </form>
                         </div>
                     </td>
