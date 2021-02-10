@@ -1,0 +1,14 @@
+@extends('layouts.nav')
+
+@section('content')
+<div class="container">
+    <h1>Crear una nueva red social</h1>
+    @include('layouts.sub_form-errors')
+    <a type="button" class="btn btn-secondary mb-4 mt-2" href="{{ url()->previous() }}"><i class="far fa-hand-point-left"></i> Volver</a>
+    <form action="{{ route('social-networks.store') }}" method="post">
+        @csrf
+        @include('socialNetworks.sub_form')
+        <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+</div>
+@endsection
