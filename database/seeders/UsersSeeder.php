@@ -17,16 +17,21 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => "Jorge I. Meza",
-            'email' => 'jimezam@autonoma.edu.co',
-            'password' => Hash::make('hola123'),
-        ]);
+        $faker = \Faker\Factory::create();
 
         DB::table('users')->insert([
-            'name' => Str::random(10),
-            'email' => Str::random(10).'@gmail.com',
-            'password' => Hash::make('password'),
+            'name' => "Santiago Velez S",
+            'email' => 'santiago.velezs@autonoma.edu.co',
+            'password' => Hash::make('hola123'),
+            'username' => 'santiagovelezs',
+        ]);
+        
+
+        DB::table('users')->insert([
+            'name' => $faker->name($gender = null|'male'|'female'),
+            'email' => $faker->email(),
+            'password' => Hash::make('hola123'),
+            'username' => $faker->userName(),
         ]);
     }
 }
