@@ -24,4 +24,8 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('/links', App\Http\Controllers\LinkController::class);
+    Route::resource('/user', App\Http\Controllers\UserController::class);
+    Route::resource('/social-networks', App\Http\Controllers\SocialNetworkController::class);
 });
+
+Route::get('/{user}', [App\Http\Controllers\UserController::class, 'mylinktree'])->name('mylinktree');
