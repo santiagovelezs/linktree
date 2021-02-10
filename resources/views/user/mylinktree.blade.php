@@ -2,7 +2,7 @@
 
 @section('body')
 
-<body>
+<body style='background-image:url({{ asset('storage/images/temas/'.$myLinktree->url_image_tema) }})' >
 
     <div class="container">
         <div class="row justify-content-center">
@@ -30,7 +30,7 @@
                 <div class="d-grid gap-5 col-8 mx-auto">
                 @foreach ($links as $link)  
                     <div class="text-center mb-3">                   
-                        <button type="button" class="btn btn-outline-secondary btn-lg btn-block">{{$link->label}}</button>
+                        <button type="button" class="btn btn-outline-primary btn-lg btn-block">{{$link->label}}</button>
                     </div>
                 @endforeach            
                 </div>

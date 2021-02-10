@@ -107,18 +107,4 @@ class UserController extends Controller
     {
         //
     }
-
-    public function mylinktree($username)
-    {
-        $user = User::where('username',$username)->first();
-        $links = $user->links;
-        $socialNetworks = $user->socialNetworks;
-        return view('user.mylinktree')->with([
-            'user' => $user,
-            'links' => $links,
-            'socialNetworks' => $socialNetworks
-        ]);   
-    }
-
-
 }

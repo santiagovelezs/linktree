@@ -28,4 +28,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/social-networks', App\Http\Controllers\SocialNetworkController::class);
 });
 
-Route::get('/{user}', [App\Http\Controllers\UserController::class, 'mylinktree'])->name('mylinktree');
+//Route::get('/{user}', [App\Http\Controllers\UserController::class, 'mylinktree'])->name('mylinktree');
+
+Route::resource('/{username}', App\Http\Controllers\MyLinktreeController::class);
