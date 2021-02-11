@@ -39,7 +39,7 @@ class SocialNetworkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SocialNetwokRequest $request)
+    public function store(SocialNetworkRequest $request)
     {       
         $user = Auth::user();        
         $socialNetwork = new SocialNetwork();
@@ -79,7 +79,7 @@ class SocialNetworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SocialNetwokRequest $request, SocialNetwork $socialNetwork)
+    public function update(SocialNetworkRequest $request, SocialNetwork $socialNetwork)
     {
         $socialNetwork->type = $request->input('type');
         $socialNetwork->url = $request->input('url');
