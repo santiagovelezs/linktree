@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\File;
+use App\Models\ImagesTema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -78,7 +79,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        $imagesTemas = ImagesTema::all();
+        return view('user.edit',)->with([
+            'user' => $user,
+            'imagesTemas' => $imagesTemas
+        ]);
     }
 
     /**

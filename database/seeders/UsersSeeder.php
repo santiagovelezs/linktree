@@ -24,14 +24,6 @@ class UsersSeeder extends Seeder
             'email' => 'santiago.velezs@autonoma.edu.co',
             'password' => Hash::make('hola123'),
             'username' => 'santiagovelezs',
-        ]);
-        
-
-        DB::table('users')->insert([
-            'name' => $faker->name($gender = null|'male'|'female'),
-            'email' => $faker->email(),
-            'password' => Hash::make('hola123'),
-            'username' => $faker->userName(),
-        ]);
+        ]);      
     }
 }

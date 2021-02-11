@@ -26,8 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/links', App\Http\Controllers\LinkController::class);
     Route::resource('/user', App\Http\Controllers\UserController::class);
     Route::resource('/social-networks', App\Http\Controllers\SocialNetworkController::class);
+    Route::put('mylinktree/{myLinktree}', [App\Http\Controllers\MyLinktreeController::class, 'update'])->name('mylinktree.update');
 });
 
-//Route::get('/{user}', [App\Http\Controllers\UserController::class, 'mylinktree'])->name('mylinktree');
-
-Route::resource('/{username}', App\Http\Controllers\MyLinktreeController::class);
+Route::get('/{username}', [App\Http\Controllers\MyLinktreeController::class, 'index'])->name('mylinktree');

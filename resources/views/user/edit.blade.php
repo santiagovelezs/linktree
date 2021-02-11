@@ -39,6 +39,47 @@
             
         </div>
     </div>
+    <div class="card mt-4">
+        <div class="card-header">
+            Linktree Theme
+        </div>
+        <div class="card-body"> 
+
+            <div class="row justify-content-center">
+            @foreach ($imagesTemas as $image)
+            <div class="col-4 mt-3">
+                <div class="card">
+                    @if ($image->id == $user->myLinktree->imagesTema_id)
+                        <span class="border border-success">
+                            <img width="250" height="250" class="card-img-top" src="{{ asset('storage/images/temas/'.$image->url_image) }}" />
+                        
+                        <div class="card-body">   
+                            <form action="{{ route('mylinktree.update', $user->myLinktree) }}" method="post">
+                                @csrf
+                                @method('put')      
+                                <input class="d-none" type="text" name="imagesTema_id" value="{{ $image->id }}">            
+                                <button type="submit" class="btn btn-light" disabled>Seleccionar</button>
+                            </form>   
+                        </div> 
+                        </span>
+                    @else
+                    <img width="250" height="250" class="card-img-top" src="{{ asset('storage/images/temas/'.$image->url_image) }}" />
+                    <div class="card-body">   
+                        <form action="{{ route('mylinktree.update', $user->myLinktree) }}" method="post">
+                            @csrf
+                            @method('put')      
+                            <input class="d-none" type="text" name="imagesTema_id" value="{{ $image->id }}">            
+                            <button type="submit" class="btn btn-light">Seleccionar</button>
+                        </form>   
+                    </div> 
+                    @endif                    
+                </div>
+            </div>
+            @endforeach
+            </div>
+            
+        </div>        
+    </div>
 </div>
 
 @endsection

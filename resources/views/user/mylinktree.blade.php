@@ -2,14 +2,14 @@
 
 @section('body')
 
-<body style='background-image:url({{ asset('storage/images/temas/'.$myLinktree->url_image_tema) }})' >
+<body style='background-image:url({{ asset('storage/images/temas/'.$myLinktree->imagesTema->url_image) }})' >
 
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-2 mt-3">
             
                 <p class="text-muted text-center">
-                    @<?php echo $user->username ?>
+                    @<?php echo $user->username ?>                                       
                 </p>                         
     
             </div>            

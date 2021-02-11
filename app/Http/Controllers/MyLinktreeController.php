@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ImagesTema;
+use App\Models\MyLinktree;
 use Illuminate\Http\Request;
 
 class MyLinktreeController extends Controller
@@ -16,79 +18,30 @@ class MyLinktreeController extends Controller
     {        
         $user = User::where('username',$username)->first();
         $links = $user->links;
-        $socialNetworks = $user->socialNetworks;
+        $socialNetworks = $user->socialNetworks;        
         $myLinkTree = $user->myLinktree;
+                
         return view('user.mylinktree')->with([
             'user' => $user,
             'links' => $links,
             'socialNetworks' => $socialNetworks,
-            'myLinktree' => $myLinkTree
+            'myLinktree' => $myLinkTree            
         ]);    
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    private function setupLinkTree($user)
     {
-        //
+        $myLinkT = new MyLinktree();
+        $myLinkT->user_id = $user->id;
+        $myLinkT->imagesTema_id = ImagesTema::all()->first()->id;
+        $myLinkT->save();
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    
+    public function update(Request $request, MyLinktree $myLinktree)
     {
-        //
-    }
+        $myLinktree->imagesTema_id = $request->input('imagesTema_id');        
+        $myLinktree->save();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return back()->with('_success', '¡Tema LinkTree actualizado con exito');
     }
 }

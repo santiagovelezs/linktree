@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ImagesTema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MyLinktree extends Model
 {
@@ -15,7 +16,7 @@ class MyLinktree extends Model
      * @var array
      */
     protected $fillable = [
-        'url_image_tema',
+        'imagesTema_id',
         'links_font',
         'links_color',        
     ];
@@ -29,4 +30,18 @@ class MyLinktree extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function imagesTema()
+    {
+        return $this->belongsTo(imagesTema::class, 'imagesTema_id');
+    }
+
+    /*public static function setupLinkTree($user)
+    {
+        $myLinkT = new MyLinktree();
+        $myLinkT->user_id = $user->id;
+        $myLinkT->imagesTema_id = ImagesTema::all()->first()->id;
+        $myLinkT->save();
+        return $myLinkT;
+    }*/
 }

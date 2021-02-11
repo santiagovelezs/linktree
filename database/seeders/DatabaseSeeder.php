@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\ImagesTemasSeeder;
+use Database\Seeders\MyLinktreesSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,8 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             LinksSeeder::class,
             SocialNetworksSeeder::class,
+            ImagesTemasSeeder::class,
+            MyLinktreesSeeder::class,
         ]);
     }
 }
