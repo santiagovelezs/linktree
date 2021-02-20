@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Models\Link;
 use App\Http\Requests\LinkRequest;
+use App\Repositories\LinkRepository;
+use Illuminate\Support\Facades\Auth;
 
 class LinkController extends Controller
 {
@@ -15,10 +14,10 @@ class LinkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(LinkRepository $linkRepository)
     {
-        $links = Link::ownedBy(Auth::id())->simplePaginate(5);
-        //dd($links);
+        $links = $linkRepository->getAllById(Auth::id());
+        
         return view('links.index', compact('links'));
     }
 
@@ -35,16 +34,12 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request\LinkRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LinkRequest $request)
+    public function store(LinkRequest $request, LinkRepository $linkRepository)
     {
-        $link = new Link();
-        $link->label = $request->input('label');
-        $link->url = $request->input('url');
-        $link->user_id = Auth::id();
-        $link->save();
+        $linkRepository->create($request);
 
         return redirect(route('links.index'))->with('_success', '¡Enlace creado exitosamente!');
     }
@@ -52,7 +47,7 @@ class LinkController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Link  $link
      * @return \Illuminate\Http\Response
      */
     public function show(Link $link)
@@ -63,7 +58,7 @@ class LinkController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Link  $link
      * @return \Illuminate\Http\Response
      */
     public function edit(Link $link)
@@ -74,15 +69,13 @@ class LinkController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request\LinkRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LinkRequest $request, Link $link)
+    public function update(LinkRequest $request, Link $link, LinkRepository $linkRepository)
     {
-        $link->label = $request->input('label');
-        $link->url = $request->input('url');
-        $link->save();
+        $linkRepository->update($request, $link->id);
 
         return redirect(route('links.index'))->with('_success', '¡Enlace editado exitosamente!');
     }
@@ -93,11 +86,11 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Link $link)
+    public function destroy(Link $link, LinkRepository $linkRepository)
     {
         if($link->owner->id == Auth::id())
         {
-            $link->delete();
+            $linkRepository->delete($link->id);
 
             return back()->with('_success', '¡Enlace borrado exitosamente!');
         }

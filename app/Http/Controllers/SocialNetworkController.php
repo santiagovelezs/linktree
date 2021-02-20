@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SocialNetwork;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SocialNetworkRequest;
+use App\Repositories\SocialNetworkRepository;
 
 class SocialNetworkController extends Controller
 {
@@ -14,10 +15,10 @@ class SocialNetworkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(SocialNetworkRepository $socialNetworkRepository)
     {
-        $socialNetworks = SocialNetwork::ownedBy(Auth::id())->simplePaginate(5);
-        //dd($links);
+        $socialNetworks = $socialNetworkRepository->getAllById(Auth::id());
+        
         return view('socialNetworks.index', compact('socialNetworks'));
     }
 
@@ -27,26 +28,20 @@ class SocialNetworkController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //$types = ['youtube', 'instagram', 'twitter', 'facebook'];
-        //return view('socialNetworks.create', compact('types'));
+    {        
         return view('socialNetworks.create')->with('types', SocialNetwork::$types); 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request\SocialNetworkRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SocialNetworkRequest $request)
+    public function store(SocialNetworkRequest $request, SocialNetworkRepository $socialNetworkRepository)
     {       
-        $user = Auth::user();        
-        $socialNetwork = new SocialNetwork();
-        $socialNetwork->type = $request->input('type');
-        $socialNetwork->url = $request->input('url');
-        $socialNetwork->user_id = $user->id;
-        $socialNetwork->save();
+        $socialNetworkRepository->create($request);
+
         return redirect(route('social-networks.index'))->with('_success', '!Red social creada exitosamente!');
     }
 
@@ -79,11 +74,9 @@ class SocialNetworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SocialNetworkRequest $request, SocialNetwork $socialNetwork)
+    public function update(SocialNetworkRequest $request, SocialNetwork $socialNetwork, SocialNetworkRepository $socialNetworkRepository)
     {
-        $socialNetwork->type = $request->input('type');
-        $socialNetwork->url = $request->input('url');
-        $socialNetwork->save();
+        $socialNetworkRepository->update($request, $socialNetwork->id);
 
         return redirect(route('social-networks.index'))->with('_success', '¡Red social editada exitosamente!');
     }
@@ -94,11 +87,11 @@ class SocialNetworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SocialNetwork $socialNetwork)
+    public function destroy(SocialNetwork $socialNetwork, SocialNetworkRepository $socialNetworkRepository)
     {
         if($socialNetwork->owner->id == Auth::id())
         {
-            $socialNetwork->delete();
+            $socialNetworkRepository->delete($socialNetwork->id);
 
             return back()->with('_success', '¡Red social borrada exitosamente!');
         }
