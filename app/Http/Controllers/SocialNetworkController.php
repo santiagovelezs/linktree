@@ -76,7 +76,7 @@ class SocialNetworkController extends Controller
      */
     public function update(SocialNetworkRequest $request, SocialNetwork $socialNetwork, SocialNetworkRepository $socialNetworkRepository)
     {
-        $socialNetworkRepository->update($request, $socialNetwork->id);
+        $socialNetworkRepository->update($request, $socialNetwork->id, Auth::id());
 
         return redirect(route('social-networks.index'))->with('_success', '¡Red social editada exitosamente!');
     }

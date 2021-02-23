@@ -21,33 +21,51 @@ class SocialNetworkRepository
         return $socialNetworks;
     }
 
+    public function getById($id)
+    {
+       return SocialNetwork::find($id);
+    }
+
     /**
      * Guardar un SocialNetwork en la base de datos
      * @param $socialNetworkData
      * @return App\Models\SocialNetwork
      */
-    public function create($socialNetworkData)
+    public function create($socialNetworkData, $user_id) // TODO: Middleware auth
     {          
         $socialNetwork = new SocialNetwork();
         $socialNetwork->type = $socialNetworkData->type;
         $socialNetwork->url = $socialNetworkData->url;
-        $socialNetwork->user_id = Auth::id();
+        $socialNetwork->user_id = $user_id;
         $socialNetwork->save();
 
         return $socialNetwork;
-    }
+    }    
 
-    public function update($socialNetworkData, $id)
+    public function update($socialNetworkData, $id, $user_id)
+    {               
+        $socialNetwork = SocialNetwork::find($id);
+        if($user_id == $socialNetwork->owner->id) 
+        {
+            $socialNetwork->type = $socialNetworkData->type;
+            $socialNetwork->url = $socialNetworkData->url;
+            $socialNetwork->save();
+
+            return $socialNetwork;
+        }
+        return false;        
+    }   
+
+    public function delete($id, $user_id)
     {
         $socialNetwork = SocialNetwork::find($id);
-        $socialNetwork->type = $socialNetworkData->type;
-        $socialNetwork->url = $socialNetworkData->url;
-        $socialNetwork->save();
-    }
+        if($user_id == $socialNetwork->owner->id) 
+        {            
+            $socialNetwork->delete();
 
-    public function delete($id)
-    {
-        return SocialNetwork::destroy($id);        
+            return true;
+        }
+        return false;       
     }
 
 }

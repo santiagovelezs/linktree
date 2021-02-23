@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('v1')->group(function(){
+    Route::apiResource('links', App\Http\Controllers\api\v1\LinkController::class);
+    Route::apiResource('social-networks', App\Http\Controllers\api\v1\SocialNetworkController::class);
+});
+
+

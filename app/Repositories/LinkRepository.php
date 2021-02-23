@@ -31,17 +31,22 @@ class LinkRepository
         return $links;
     }
 
+    public function getById($id)
+    {
+       return Link::find($id);
+    }
+
     /**
      * Guardar un link en la base de datos
      * @param $linkData
      * @return App\Models\Link
      */
-    public function create($linkData)
-    {
+    public function create($linkData, $user_id) // TODO: Middleware auth
+    {        
         $link = new Link();
         $link->label = $linkData->label;
         $link->url = $linkData->url;
-        $link->user_id = Auth::id();
+        $link->user_id = $user_id;
         $link->save();
 
         return $link;
@@ -53,14 +58,18 @@ class LinkRepository
      * @param $id
      * @return App\Models\Link
      */
-    public function update($linkData, $id)
-    {        
+    public function update($linkData, $id, $user_id)
+    {               
         $link = Link::find($id);
-        $link->label = $linkData->label;
-        $link->url = $linkData->url;
-        $link->save();
+        if($user_id == $link->owner->id) 
+        {
+            $link->label = $linkData->label;
+            $link->url = $linkData->url;
+            $link->save();
 
-        return $link;
+            return $link;
+        }
+        return false;        
     }
 
     /**
@@ -68,9 +77,16 @@ class LinkRepository
      * @param $id
      * @return N
      */
-    public function delete($id)
+    public function delete($id, $user_id)
     {
-        return Link::destroy($id);        
+        $link = Link::find($id);
+        if($user_id == $link->owner->id) 
+        {            
+            $link->delete();
+
+            return true;
+        }
+        return false;       
     }
 
 }

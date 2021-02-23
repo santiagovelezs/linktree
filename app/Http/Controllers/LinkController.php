@@ -38,8 +38,8 @@ class LinkController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(LinkRequest $request, LinkRepository $linkRepository)
-    {
-        $linkRepository->create($request);
+    {        
+        $linkRepository->create($request, Auth::id());
 
         return redirect(route('links.index'))->with('_success', '¡Enlace creado exitosamente!');
     }
@@ -75,7 +75,7 @@ class LinkController extends Controller
      */
     public function update(LinkRequest $request, Link $link, LinkRepository $linkRepository)
     {
-        $linkRepository->update($request, $link->id);
+        $linkRepository->update($request, $link->id, Auth::id());
 
         return redirect(route('links.index'))->with('_success', '¡Enlace editado exitosamente!');
     }
@@ -88,9 +88,8 @@ class LinkController extends Controller
      */
     public function destroy(Link $link, LinkRepository $linkRepository)
     {
-        if($link->owner->id == Auth::id())
-        {
-            $linkRepository->delete($link->id);
+        if($linkRepository->delete($link->id, Auth::id()))
+        {            
 
             return back()->with('_success', '¡Enlace borrado exitosamente!');
         }
