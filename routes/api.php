@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function(){
     Route::apiResource('links', App\Http\Controllers\api\v1\LinkController::class);
     Route::apiResource('social-networks', App\Http\Controllers\api\v1\SocialNetworkController::class);
+    Route::apiResource('users', App\Http\Controllers\api\v1\UserController::class);
 });
 
 

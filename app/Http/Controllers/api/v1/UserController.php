@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Repositories\UserRepository;
 
 class UserController extends Controller
 {
@@ -12,9 +13,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserRepository $userRepository)
     {
-        //
+        $users = $userRepository->getAll();
+        return response()->json(['data' => $users], 200);
     }
 
     /**
