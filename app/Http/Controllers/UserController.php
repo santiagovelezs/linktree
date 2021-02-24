@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\File;
 use App\Models\ImagesTema;
 use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -90,17 +91,18 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  User $user
+     * @param  UserRepository $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, UserRepository $userRepository)
     {
         //dd($request);
-        $user->name = $request->input('name');        
-        $user->save();
+        $userRepository->update($request, $user->id, Auth::id());       
 
         return redirect(route('user.edit', Auth::user()))->with('_success', '¡Usuario editado exitosamente!');
-    }
+    }    
 
     /**
      * Remove the specified resource from storage.

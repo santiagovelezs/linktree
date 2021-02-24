@@ -22,6 +22,8 @@ Route::prefix('v1')->group(function(){
     Route::apiResource('links', App\Http\Controllers\api\v1\LinkController::class);
     Route::apiResource('social-networks', App\Http\Controllers\api\v1\SocialNetworkController::class);
     Route::apiResource('users', App\Http\Controllers\api\v1\UserController::class);
+    Route::get('users/{id}/links', [App\Http\Controllers\api\v1\UserController::class, 'links'])->name('linksUser');
+    Route::get('users/{id}/social-networks', [App\Http\Controllers\api\v1\UserController::class, 'socialNetworks'])->name('socialNetworksUser');    
 });
 
 

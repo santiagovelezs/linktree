@@ -14,4 +14,47 @@ class UserRepository
 
         return $users;
     }
+
+    public function getById($id)
+    {
+       return User::find($id);
+    }
+
+    /**
+     * Actualizar un link en la base de datos
+     * @param $userData
+     * @param $id
+     * @param $user_id
+     * @return App\Models\User
+     */
+    public function update($userData, $id, $user_id)
+    {               
+        $user = User::find($id);
+        if($user_id == $user->id) 
+        {
+            $user->name = $userData->name;            
+            $user->save();
+
+            return $user;
+        }
+        return false;        
+    }
+
+    /**
+     * Eliminar un User en la base de datos     
+     * @param $id
+     * @param $user_id
+     * @return Boolean
+     */
+    public function delete($id, $user_id)
+    {
+        $user = User::find($id);
+        if($user_id == $user->id) 
+        {            
+            $user->delete();
+
+            return true;
+        }
+        return false;       
+    }
 }
