@@ -31,7 +31,7 @@
             
         </div>
         <div class="card-footer">
-            <form method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('user.upProfilePhoto') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="file" accept="image/*" name="file" class="d-none" id="file">
                 <button type="submit" class="btn btn-success">Cambiar imagen</button>

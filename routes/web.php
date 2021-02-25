@@ -23,10 +23,11 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::resource('/links', App\Http\Controllers\LinkController::class);
-    Route::resource('/user', App\Http\Controllers\UserController::class);
+    Route::resource('/links', App\Http\Controllers\LinkController::class);    
     Route::resource('/social-networks', App\Http\Controllers\SocialNetworkController::class);
     Route::put('mylinktree/{myLinktree}', [App\Http\Controllers\MyLinktreeController::class, 'update'])->name('mylinktree.update');
 });
-
+Route::get('/user/{user}/edit/', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
+Route::put('/user/profile/', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+Route::post('/user/profile/photo', [App\Http\Controllers\UserController::class, 'upProfilePhoto'])->name('user.upProfilePhoto');
 Route::get('/{username}', [App\Http\Controllers\MyLinktreeController::class, 'index'])->name('mylinktree');

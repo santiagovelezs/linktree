@@ -28,7 +28,9 @@ class SocialNetworkController extends Controller
      */
     public function store(SocialNetworkRequest $request, SocialNetworkRepository $socialNetworkRepository)
     {
-        $token = $request->bearerToken();                
+        $token = $request->bearerToken();      
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);          
         $user_id = $token; // Middleware Tokens auth not implemented
         $socialNetwork = $socialNetworkRepository->create($request, $user_id);
 
@@ -58,6 +60,8 @@ class SocialNetworkController extends Controller
     public function update(SocialNetworkRequest $request, $id, SocialNetworkRepository $socialNetworkRepository)
     {
         $token = $request->bearerToken(); 
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);
         $user_id = $token; // Middleware Tokens auth not implemented
         $socialNetwork = $socialNetworkRepository->update($request, $id, $user_id);
         if($socialNetwork)
@@ -77,6 +81,8 @@ class SocialNetworkController extends Controller
     public function destroy(Request $request, $id, SocialNetworkRepository $socialNetworkRepository)
     {
         $token = $request->bearerToken();
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);
         $user_id = $token; // Middleware Tokens auth not implemented
         if($socialNetworkRepository->delete($id, $user_id))
         {

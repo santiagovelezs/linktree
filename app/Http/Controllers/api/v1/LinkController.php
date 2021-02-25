@@ -28,7 +28,9 @@ class LinkController extends Controller
      */
     public function store(LinkRequest $request, LinkRepository $linkRepository)
     {
-        $token = $request->bearerToken();                
+        $token = $request->bearerToken();
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);   
         $user_id = $token; // Middleware Tokens auth not implemented
         $link = $linkRepository->create($request, $user_id);
 
@@ -57,6 +59,8 @@ class LinkController extends Controller
     public function update(LinkRequest $request, $id, LinkRepository $linkRepository)
     {
         $token = $request->bearerToken(); 
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);
         $user_id = $token; // Middleware Tokens auth not implemented
         $link = $linkRepository->update($request, $id, $user_id);
         if($link)
@@ -76,6 +80,8 @@ class LinkController extends Controller
     public function destroy(Request $request, $id, LinkRepository $linkRepository)
     {
         $token = $request->bearerToken();
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);
         $user_id = $token; // Middleware Tokens auth not implemented
         if($linkRepository->delete($id, $user_id))
         {
