@@ -40,7 +40,7 @@ class SocialNetworkController extends Controller
      */
     public function store(SocialNetworkRequest $request, SocialNetworkRepository $socialNetworkRepository)
     {       
-        $socialNetworkRepository->create($request);
+        $socialNetworkRepository->create($request, Auth::id());
 
         return redirect(route('social-networks.index'))->with('_success', '!Red social creada exitosamente!');
     }

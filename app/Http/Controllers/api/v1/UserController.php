@@ -54,6 +54,8 @@ class UserController extends Controller
     public function update(Request $request, $id, UserRepository $userRepository)
     {
         $token = $request->bearerToken(); 
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);
         $user_id = $token; // Middleware Tokens auth not implemented
         $user = $userRepository->update($request, $id, $user_id);
         if($user)
@@ -75,6 +77,8 @@ class UserController extends Controller
     public function destroy(Request $request, $id, UserRepository $userRepository)
     {
         $token = $request->bearerToken();
+        if(!$token)    
+            return response()->json(['error' => 'Bad Request'], 400);
         $user_id = $token; // TODO: Middleware Admin Role Tokens auth not implemented
         if($userRepository->delete($id, $user_id))
         {
