@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v2;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\apiv2\SocialNetworkRequest;
 use App\Http\Resources\SocialNetworkResource;
 use App\Repositories\SocialNetworkRepository;
 use App\Http\Resources\SocialNetworkResourceCollection;
@@ -27,9 +28,10 @@ class SocialNetworkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SocialNetworkRequest $request, SocialNetworkRepository $socialNetworkRepository)
     {
-        //
+        dd($request->data);
+        return response()->json(['data' => $request], 201);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SocialNetworkRequest;
+use App\Http\Requests\apiv1\SocialNetworkRequest;
 use App\Repositories\SocialNetworkRepository;
 
 class SocialNetworkController extends Controller
