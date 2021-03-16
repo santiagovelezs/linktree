@@ -32,7 +32,7 @@ class SocialNetworkRepository
      * @return App\Models\SocialNetwork
      */
     public function create($socialNetworkData, $user_id) // TODO: Middleware auth
-    {          
+    {        
         $socialNetwork = new SocialNetwork();
         $socialNetwork->type = $socialNetworkData->type;
         $socialNetwork->url = $socialNetworkData->url;

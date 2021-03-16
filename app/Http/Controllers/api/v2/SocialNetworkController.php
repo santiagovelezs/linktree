@@ -25,19 +25,35 @@ class SocialNetworkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\apiv2\SocialNetworkRequest  $request
+     * @param  App\Repositories\SocialNetworkRepository $socialNetworkRepository
      * @return \Illuminate\Http\Response
      */
     public function store(SocialNetworkRequest $request, SocialNetworkRepository $socialNetworkRepository)
-    {
-        dd($request->data);
-        return response()->json(['data' => $request], 201);
+    {        
+        $token = $request->bearerToken();      
+        if(!$token)    
+            return response()->json(['errors' => [
+                'status' => 401,
+                'title'  => 'Bad Request',
+                'detail' => 'No token provided' 
+            ]
+        ], 401);      
+        $user_id = $token; // Middleware Tokens auth not implemented
+        $attributes = $request->data['attributes'];
+        $request->replace($attributes);
+        //dd($attributes);
+        $socialNetwork = $socialNetworkRepository->create($request, $user_id);
+
+        return new SocialNetworkResource($socialNetwork);
+        
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  App\Repositories\SocialNetworkRepository $socialNetworkRepository
      * @return \Illuminate\Http\Response
      */
     public function show($id, SocialNetworkRepository $socialNetworkRepository)
@@ -53,9 +69,26 @@ class SocialNetworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SocialNetworkRequest $request, $id, SocialNetworkRepository $socialNetworkRepository)
     {
-        //
+        $token = $request->bearerToken(); 
+        if(!$token)    
+            return response()->json(['errors' => [
+                'status' => 401,
+                'title'  => 'Bad Request',
+                'detail' => 'No token provided' 
+            ]
+        ], 401);
+        $user_id = $token; // Middleware Tokens auth not implemented
+        $attributes = $request->data['attributes'];
+        $request->replace($attributes);
+        $socialNetwork = $socialNetworkRepository->update($request, $id, $user_id);
+        if($socialNetwork)
+        {
+            return response(null, 204);
+        }    
+
+        return response(null, 403);        
     }
 
     /**
@@ -64,8 +97,27 @@ class SocialNetworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id, SocialNetworkRepository $socialNetworkRepository)
     {
-        //
+        $token = $request->bearerToken();
+        if(!$token)    
+            return response()->json(['errors' => [
+                'status' => 401,
+                'title'  => 'Bad Request',
+                'detail' => 'No token provided' 
+            ]
+        ], 401);
+        $socialNetwork = $socialNetworkRepository->getById($id);
+        if(!$socialNetwork)
+        {
+            return response(null, 404);
+        }
+        $user_id = $token; // Middleware Tokens auth not implemented
+        if($socialNetworkRepository->delete($id, $user_id))
+        {
+            return response(null, 204);
+        }
+        
+        return response(null, 403);
     }
 }

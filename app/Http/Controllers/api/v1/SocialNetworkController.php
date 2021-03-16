@@ -27,13 +27,13 @@ class SocialNetworkController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(SocialNetworkRequest $request, SocialNetworkRepository $socialNetworkRepository)
-    {
+    {        
         $token = $request->bearerToken();      
         if(!$token)    
             return response()->json(['error' => 'Bad Request'], 400);          
         $user_id = $token; // Middleware Tokens auth not implemented
         $socialNetwork = $socialNetworkRepository->create($request, $user_id);
-
+        
         return response()->json(['data' => $socialNetwork], 201);
     }
 
