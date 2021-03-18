@@ -17,16 +17,20 @@ class MyLinktreeController extends Controller
     public function index($username)
     {        
         $user = User::where('username',$username)->first();
-        $links = $user->links;
-        $socialNetworks = $user->socialNetworks;        
-        $myLinkTree = $user->myLinktree;
-                
-        return view('user.mylinktree')->with([
-            'user' => $user,
-            'links' => $links,
-            'socialNetworks' => $socialNetworks,
-            'myLinktree' => $myLinkTree            
-        ]);    
+        if($user)
+        {
+            $links = $user->links;
+            $socialNetworks = $user->socialNetworks;        
+            $myLinkTree = $user->myLinktree;
+                    
+            return view('user.mylinktree')->with([
+                'user' => $user,
+                'links' => $links,
+                'socialNetworks' => $socialNetworks,
+                'myLinktree' => $myLinkTree            
+            ]);   
+        }
+        abort(404); 
     }
 
     private function setupLinkTree($user)

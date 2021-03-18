@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\LinkRequest;
+use App\Http\Requests\v1\LinkRequest;
 use App\Http\Controllers\Controller;
 use App\Repositories\LinkRepository;
 

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\api\v2;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\apiv2\SocialNetworkRequest;
-use App\Http\Resources\SocialNetworkResource;
+use App\Http\Requests\v2\SocialNetworkRequest;
+use App\Http\Resources\v2\SocialNetworkResource;
 use App\Repositories\SocialNetworkRepository;
-use App\Http\Resources\SocialNetworkResourceCollection;
+use App\Http\Resources\v2\SocialNetworkResourceCollection;
 
 class SocialNetworkController extends Controller
 {
@@ -44,8 +44,10 @@ class SocialNetworkController extends Controller
         $request->replace($attributes);
         //dd($attributes);
         $socialNetwork = $socialNetworkRepository->create($request, $user_id);
-
-        return new SocialNetworkResource($socialNetwork);
+        
+        return (new SocialNetworkResource($socialNetwork))
+                ->response()
+                ->setStatusCode(201);
         
     }
 
@@ -85,7 +87,9 @@ class SocialNetworkController extends Controller
         $socialNetwork = $socialNetworkRepository->update($request, $id, $user_id);
         if($socialNetwork)
         {
-            return response(null, 204);
+            return (new SocialNetworkResource($socialNetwork))
+                ->response()
+                ->setStatusCode(200);
         }    
 
         return response(null, 403);        

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\apiv1;
+namespace App\Http\Requests\v2;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +24,13 @@ class SocialNetworkRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|max:128',
-            'url' => 'required|max:256|url',
+            'data' => [
+                'type' => 'required',
+                'attributes' => [
+                    'type' => 'required|max:128',
+                    'url' => 'required|max:256|url',
+                ]
+            ]            
         ];
     }
 }

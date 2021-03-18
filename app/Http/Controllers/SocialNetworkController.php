@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SocialNetwork;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\SocialNetworkRequest;
+use App\Http\Requests\v1\SocialNetworkRequest;
 use App\Repositories\SocialNetworkRepository;
 
 class SocialNetworkController extends Controller
@@ -89,12 +89,11 @@ class SocialNetworkController extends Controller
      */
     public function destroy(SocialNetwork $socialNetwork, SocialNetworkRepository $socialNetworkRepository)
     {
-        if($socialNetwork->owner->id == Auth::id())
+       
+        if($socialNetworkRepository->delete($socialNetwork->id, Auth::id()))
         {
-            $socialNetworkRepository->delete($socialNetwork->id);
-
             return back()->with('_success', '¡Red social borrada exitosamente!');
-        }
+        }       
         
         return back()->with('_failure', '¡No tiene permiso de borrar ese recurso!');
     }

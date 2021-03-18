@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\v2;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +22,8 @@ class SocialNetworkResource extends JsonResource
                 'type' => $this->type,
                 'url' => $this->url,
                 'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at             
+                'updated_at' => $this->updated_at,  
+                'user_id' => route('apiv2.users.show', $this->user_id)           
             ],
             'links' => [
                 'self' => route('apiv2.social-networks.show', $this->id)

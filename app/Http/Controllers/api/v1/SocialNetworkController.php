@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\apiv1\SocialNetworkRequest;
+use App\Http\Requests\v1\SocialNetworkRequest;
 use App\Repositories\SocialNetworkRepository;
 
 class SocialNetworkController extends Controller
@@ -63,6 +63,10 @@ class SocialNetworkController extends Controller
         if(!$token)    
             return response()->json(['error' => 'Bad Request'], 400);
         $user_id = $token; // Middleware Tokens auth not implemented
+        if(!$socialNetworkRepository->getById($id))  
+        {
+            return response()->json(['error' => 'Recurso No Existe'], 404);
+        }      
         $socialNetwork = $socialNetworkRepository->update($request, $id, $user_id);
         if($socialNetwork)
         {

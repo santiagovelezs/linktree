@@ -7,7 +7,7 @@
     @include('layouts.sub_form-errors')   
     <div class="card mt-4"> 
         <div class="card-body"> 
-            <form action="{{ route('user.update', $user) }}" method="post">
+            <form action="{{ route('user.update') }}" method="post">
                 @csrf
                 @method('put')
                 @include('user.sub_form')

@@ -27,17 +27,16 @@ class UserRepository
      * @param $user_id
      * @return App\Models\User
      */
-    public function update($userData, $id, $user_id)
+    public function update($userData, $user_id)
     {               
-        $user = User::find($id);
-        if($user_id == $user->id) 
-        {
-            $user->name = $userData->name;            
-            $user->save();
+        $user = User::find($user_id);
+        
+        $user->name = $userData->name;            
+        $user->save();
 
-            return $user;
-        }
-        return false;        
+        return $user;
+        
+              
     }
 
     /**

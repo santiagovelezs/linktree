@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
-use App\Http\Requests\LinkRequest;
+use App\Http\Requests\v1\LinkRequest;
 use App\Repositories\LinkRepository;
 use Illuminate\Support\Facades\Auth;
 

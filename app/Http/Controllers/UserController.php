@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\upProfilePhotoRequest;
+use App\Http\Requests\v1\upProfilePhotoRequest;
 
 class UserController extends Controller
 {  
@@ -63,10 +63,9 @@ class UserController extends Controller
      * @param  UserRepository $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user, UserRepository $userRepository)
-    {
-        //dd($request);
-        $userRepository->update($request, $user->id, Auth::id());       
+    public function update(Request $request, UserRepository $userRepository)
+    {       
+        $userRepository->update($request, Auth::id());       
 
         return redirect(route('user.edit', Auth::user()))->with('_success', '¡Usuario editado exitosamente!');
     }   
